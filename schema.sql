@@ -4,13 +4,25 @@ CREATE TABLE medalla(
     CONSTRAINT medalla_pk PRIMARY KEY (id_medalla)
 );
 
-CREATE TABLE atleta(
+CREATE TABLE categoria(
+    id_categoria NUMBER GENERATED ALWAYS as IDENTITY(START with 1 INCREMENT by 1),
+    descripcion VARCHAR(50),
+    CONSTRAINT categoria_pk PRIMARY KEY (id_categoria)
+);
+
+CREATE TABLE atleta (
     id_atleta NUMBER GENERATED ALWAYS as IDENTITY(START with 1 INCREMENT by 1),
     nombre VARCHAR2(50),
     apellido VARCHAR2(50),
     fecha_nacimiento DATE,
     nacionalidad VARCHAR2(50),
     CONSTRAINT atleta_pk PRIMARY KEY (id_atleta)
+);
+
+CREATE TABLE pais(
+    id_pais NUMBER GENERATED ALWAYS as IDENTITY(START with 1 INCREMENT by 1),
+    nombre VARCHAR(50),
+    CONSTRAINT pais_pk PRIMARY KEY (id_pais)
 );
 
 CREATE TABLE tipos_deportes(
@@ -24,21 +36,16 @@ CREATE TABLE ciudad(
     nombre VARCHAR(50),
     pais NUMBER,
     CONSTRAINT ciudad_pk PRIMARY KEY (id_ciudad),
-    CONSTRAINT ciudad_pais_fk FOREIGN KEY (pais) REFERENCES pais(id_ciudad)
+    CONSTRAINT ciudad_pais_fk FOREIGN KEY (pais) REFERENCES pais(id_pais)
 );
 
-CREATE TABLE pais(
-    id_pais NUMBER GENERATED ALWAYS as IDENTITY(START with 1 INCREMENT by 1),
-    nombre VARCHAR(50),
-    CONSTRAINT pais_pk PRIMARY KEY (id_pais)
-);
-
-CREATE TABLE capital(
-    id_pais NUMBER,
-    id_ciudad NUMBER,
-    CONSTRAINT capital_pk PRIMARY KEY (id_pais, id_ciudad),
-    CONSTRAINT capital_pais_fk FOREIGN KEY (id_pais) REFERENCES pais(id_pais),
-    CONSTRAINT capital_ciudad_fk FOREIGN KEY (id_ciudad) REFERENCES ciudad(id_ciudad)
+CREATE TABLE lugar (
+    id_lugar NUMBER GENERATED ALWAYS as IDENTITY(START with 1 INCREMENT by 1),
+    nombre VARCHAR2(50),
+    capacidad NUMBER,
+    ciudad NUMBER,
+    CONSTRAINT lugar_pk PRIMARY KEY (id_lugar),
+    CONSTRAINT lugar_ciudad_fk FOREIGN KEY (ciudad) REFERENCES ciudad(id_ciudad)
 );
 
 CREATE TABLE hotel(
@@ -49,6 +56,15 @@ CREATE TABLE hotel(
     CONSTRAINT hotel_ciudad_fk FOREIGN KEY (ciudad) REFERENCES ciudad(id_ciudad)
 );
 
+CREATE TABLE capital(
+    id_pais NUMBER,
+    id_ciudad NUMBER,
+    CONSTRAINT capital_pk PRIMARY KEY (id_pais, id_ciudad),
+    CONSTRAINT capital_pais_fk FOREIGN KEY (id_pais) REFERENCES pais(id_pais),
+    CONSTRAINT capital_ciudad_fk FOREIGN KEY (id_ciudad) REFERENCES ciudad(id_ciudad)
+);
+
+
 CREATE TABLE delegacion(
     id_delegacion NUMBER GENERATED ALWAYS as IDENTITY(START with 1 INCREMENT by 1),
     nombre VARCHAR2(50),
@@ -58,21 +74,6 @@ CREATE TABLE delegacion(
     CONSTRAINT delegacion_pk PRIMARY KEY (id_delegacion),
     CONSTRAINT delegacion_pais_fk FOREIGN KEY (pais) REFERENCES pais(id_pais),
     CONSTRAINT delegacion_atleta_fk FOREIGN KEY (atleta) REFERENCES atleta(id_atleta)
-);
-
-CREATE TABLE categoria(
-    id_categoria NUMBER GENERATED ALWAYS as IDENTITY(START with 1 INCREMENT by 1),
-    descripcion VARCHAR(50),
-    CONSTRAINT categoria_pk PRIMARY KEY (id_categoria)
-);
-
-CREATE TABLE lugar(
-    id_lugar NUMBER GENERATED ALWAYS as IDENTITY(START with 1 INCREMENT by 1),
-    nombre VARCHAR2(50),
-    capacidad NUMBER,
-    ciudad NUMBER,
-    CONSTRAINT lugar_pk PRIMARY KEY (id_lugar),
-    CONSTRAINT lugar_ciudad_fk FOREIGN KEY (ciudad) REFERENCES ciudad(id_ciudad)
 );
 
 CREATE TABLE competencia(
