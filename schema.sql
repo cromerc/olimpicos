@@ -32,7 +32,7 @@ CREATE TABLE tipos_deportes(
 );
 
 CREATE TABLE ciudad(
-    id_ciudad NUMBER GENERATED ALWAYS as IDENTITY(START with 1 INCREMENT by 1),
+    id_ciudad NUMBER,
     nombre VARCHAR(50),
     pais NUMBER,
     CONSTRAINT ciudad_pk PRIMARY KEY (id_ciudad),
