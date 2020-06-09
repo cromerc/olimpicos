@@ -104,7 +104,6 @@ CREATE TABLE hospedar(
     fecha_inicio DATE,
     fecha_fin DATE,
     precio NUMBER,
-    CONSTRAINT hospedar_pk PRIMARY KEY (id_hotel, id_delegacion),
     CONSTRAINT hospedar_hotel_fk FOREIGN KEY (id_hotel) REFERENCES hotel(id_hotel),
     CONSTRAINT hospedar_delegacion_fk FOREIGN KEY (id_delegacion) REFERENCES delegacion(id_delegacion)
 );
@@ -115,7 +114,6 @@ CREATE TABLE ganar(
     id_medalla NUMBER,
     fecha DATE,
     puntaje NUMBER,
-    CONSTRAINT ganar_pk PRIMARY KEY (id_atleta, id_competencia, id_medalla),
     CONSTRAINT ganar_atleta_fk FOREIGN KEY (id_atleta) REFERENCES atleta(id_atleta),
     CONSTRAINT ganar_competencia_fk FOREIGN KEY (id_competencia) REFERENCES competencia(id_competencia),
     CONSTRAINT ganar_medalla_fk FOREIGN KEY (id_medalla) REFERENCES medalla(id_medalla)
@@ -125,7 +123,6 @@ CREATE TABLE participar_competencia(
     id_competencia NUMBER,
     id_atleta NUMBER,
     fecha DATE,
-    CONSTRAINT participar_competencia_pk PRIMARY KEY (id_competencia, id_atleta),
     CONSTRAINT participar_competencia_competencia_fk FOREIGN KEY (id_competencia) REFERENCES competencia(id_competencia),
     CONSTRAINT participar_competencia_atleta_fk FOREIGN KEY (id_atleta) REFERENCES atleta(id_atleta)
 );
@@ -135,7 +132,6 @@ CREATE TABLE participar_precompetencia(
     id_atleta NUMBER,
     puntaje NUMBER,
     fecha DATE,
-    CONSTRAINT participar_precompetencia_pk PRIMARY KEY (id_precompetencia, id_atleta),
     CONSTRAINT participar_precompetencia_precompetencia_fk FOREIGN KEY (id_precompetencia) REFERENCES precompetencia(id_precompetencia),
     CONSTRAINT participar_precompetencia_atleta_fk FOREIGN KEY (id_atleta) REFERENCES atleta(id_atleta)
 );
