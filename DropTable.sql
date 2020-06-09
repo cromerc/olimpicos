@@ -1,0 +1,16 @@
+DROP TABLE participar_precompetencia;
+DROP TABLE participar_competencia;
+DROP TABLE ganar;
+DROP TABLE hospedar;
+DROP TABLE precompetencia;
+DROP TABLE competencia;
+DROP TABLE delegacion;
+DROP TABLE capital;
+DROP TABLE hotel;
+DROP TABLE lugar;
+DROP TABLE ciudad;
+DROP TABLE tipos_deportes;
+DROP TABLE pais;
+DROP TABLE atleta;
+DROP TABLE categoria;
+DROP TABLE medalla;
