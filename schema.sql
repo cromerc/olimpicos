@@ -31,7 +31,7 @@ CREATE TABLE tipos_deportes(
     CONSTRAINT tipo_pk PRIMARY KEY (id_tipo)
 );
 
-CREATE TABLE ciudad(
+CREATE TABLE ciudad (
     id_ciudad NUMBER,
     nombre VARCHAR(50),
     pais NUMBER,
