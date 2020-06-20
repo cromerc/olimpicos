@@ -103,7 +103,8 @@ CREATE TABLE hospedar(
     id_delegacion NUMBER,
     fecha_inicio DATE,
     fecha_fin DATE,
-    precio NUMBER,
+    precio_delegacion NUMBER,
+    precio_atleta NUMBER,
     CONSTRAINT hospedar_hotel_fk FOREIGN KEY (id_hotel) REFERENCES hotel(id_hotel),
     CONSTRAINT hospedar_delegacion_fk FOREIGN KEY (id_delegacion) REFERENCES delegacion(id_delegacion)
 );
