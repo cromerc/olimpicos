@@ -12,9 +12,9 @@ BEGIN
     SELECT MAX(ID_CIUDAD) INTO v_id_ciudad FROM CIUDAD;
 
     IF (:NEW.ID_CIUDAD IS NOT NULL) AND (v_id_ciudad IS NOT NULL) THEN 
-    	IF (v_id_ciudad+1) < :NEW.ID_CIUDAD THEN
-    		RAISE_APPLICATION_ERROR(-20120, 'NO SE PUEDE INSERTAR, El ID ingresado es mayor al ID maximo de la tabla');
-    	END IF;
+        IF (v_id_ciudad+1) < :NEW.ID_CIUDAD THEN
+            RAISE_APPLICATION_ERROR(-20120, 'NO SE PUEDE INSERTAR, El ID ingresado es mayor al ID maximo de la tabla');
+        END IF;
     ELSE
         IF v_id_ciudad IS NULL THEN  
             :NEW.ID_CIUDAD := 1;
