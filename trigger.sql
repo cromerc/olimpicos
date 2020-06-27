@@ -9,7 +9,12 @@ DECLARE
 
 BEGIN
     SELECT MAX(ID_CIUDAD) INTO v_id_ciudad FROM CIUDAD;
-    :NEW.ID_CIUDAD := v_id_ciudad + 1;
+
+    IF v_id_ciudad IS NULL THEN 
+    : new.ID_CIUDAD := 1;
+    ELSE
+    : new.ID_CIUDAD := v_id_ciudad + 1;
+    END IF;
 END;
 
 -- Trigger 4
