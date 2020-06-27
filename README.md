@@ -8,5 +8,6 @@
 Hay que correr los archivos en ese orden:
 
  - schema.sql
- - data.sql
+ - vista.sql
  - trigger.sql
+ - data.sql
