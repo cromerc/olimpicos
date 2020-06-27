@@ -10,12 +10,19 @@ DECLARE
 BEGIN
     SELECT MAX(ID_CIUDAD) INTO v_id_ciudad FROM CIUDAD;
 
+    IF (:NEW.ID_CIUDAD IS NOT NULL) AND (v_id_ciudad IS NOT NULL) THEN 
+    	IF (v_id_ciudad+1) < :NEW.ID_CIUDAD THEN
+    		RAISE_APPLICATION_ERROR(-20120, 'NO SE PUEDE INSERTAR, El ID ingresado es mayor al ID maximo de la tabla');
+    	END IF;
+    END IF;
+
     IF v_id_ciudad IS NULL THEN 
         :NEW.ID_CIUDAD := 1;
     ELSE
         :NEW.ID_CIUDAD := v_id_ciudad + 1;
     END IF;
 END;
+/
 
 -- Trigger 4
 CREATE OR REPLACE TRIGGER VALIDACION_PRE_COMPETENCIA
@@ -42,6 +49,7 @@ BEGIN
         END IF;
     CLOSE PARTICIPAR_PRECO;
 END;
+/
 
 -- Trigger 5
 CREATE OR REPLACE TRIGGER CALCULAR_VALOR_DELEGACION
