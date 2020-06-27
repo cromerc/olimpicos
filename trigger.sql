@@ -11,9 +11,9 @@ BEGIN
     SELECT MAX(ID_CIUDAD) INTO v_id_ciudad FROM CIUDAD;
 
     IF v_id_ciudad IS NULL THEN 
-    : NEW.ID_CIUDAD := 1;
+        :NEW.ID_CIUDAD := 1;
     ELSE
-    : NEW.ID_CIUDAD := v_id_ciudad + 1;
+        :NEW.ID_CIUDAD := v_id_ciudad + 1;
     END IF;
 END;
 
