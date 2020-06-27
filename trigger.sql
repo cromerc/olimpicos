@@ -6,6 +6,7 @@ ON CIUDAD
 FOR EACH ROW
 DECLARE
     v_id_ciudad CIUDAD.ID_CIUDAD%TYPE;
+    v_id_ciudad_busqueda CIUDAD.ID_CIUDAD%TYPE;
 
 BEGIN
     SELECT MAX(ID_CIUDAD) INTO v_id_ciudad FROM CIUDAD;
@@ -14,13 +15,24 @@ BEGIN
     	IF (v_id_ciudad+1) < :NEW.ID_CIUDAD THEN
     		RAISE_APPLICATION_ERROR(-20120, 'NO SE PUEDE INSERTAR, El ID ingresado es mayor al ID maximo de la tabla');
     	END IF;
+    ELSE
+        IF v_id_ciudad IS NULL THEN  
+            :NEW.ID_CIUDAD := 1;
+        ELSE
+            IF :NEW.ID_CIUDAD IS NOT NULL THEN
+                SELECT ID_CIUDAD INTO v_id_ciudad_busqueda
+                FROM CIUDAD WHERE (ID_CIUDAD = :NEW.ID_CIUDAD);
+                
+                IF v_id_ciudad_busqueda IS NOT NULL THEN
+                    RAISE_APPLICATION_ERROR(-20120, 'NO SE PUEDE INSERTAR, El ID ingresado ya Existe');
+                END IF;
+            ELSE
+                :NEW.ID_CIUDAD := v_id_ciudad + 1;
+            END IF;
+        END IF;
     END IF;
 
-    IF v_id_ciudad IS NULL THEN 
-        :NEW.ID_CIUDAD := 1;
-    ELSE
-        :NEW.ID_CIUDAD := v_id_ciudad + 1;
-    END IF;
+    
 END;
 /
 
