@@ -12,9 +12,9 @@ BEGIN
     SELECT MAX(ID_CIUDAD) INTO v_id_ciudad FROM CIUDAD;
 
     IF (:NEW.ID_CIUDAD IS NOT NULL) AND (v_id_ciudad IS NOT NULL) THEN 
-    	IF (v_id_ciudad+1) < :NEW.ID_CIUDAD THEN
-    		RAISE_APPLICATION_ERROR(-20120, 'NO SE PUEDE INSERTAR, El ID ingresado es mayor al ID maximo de la tabla');
-    	END IF;
+        IF (v_id_ciudad+1) < :NEW.ID_CIUDAD THEN
+            RAISE_APPLICATION_ERROR(-20000, 'No se puede insertar! El ID ingresado es mayor al ID maximo de la tabla!');
+        END IF;
     ELSE
         IF v_id_ciudad IS NULL THEN  
             :NEW.ID_CIUDAD := 1;
@@ -24,15 +24,13 @@ BEGIN
                 FROM CIUDAD WHERE (ID_CIUDAD = :NEW.ID_CIUDAD);
                 
                 IF v_id_ciudad_busqueda IS NOT NULL THEN
-                    RAISE_APPLICATION_ERROR(-20120, 'NO SE PUEDE INSERTAR, El ID ingresado ya Existe');
+                    RAISE_APPLICATION_ERROR(-20001, 'No se puede insertar! El ID ingresado ya existe!');
                 END IF;
             ELSE
                 :NEW.ID_CIUDAD := v_id_ciudad + 1;
             END IF;
         END IF;
     END IF;
-
-    
 END;
 /
 
@@ -55,9 +53,9 @@ BEGIN
     OPEN PARTICIPAR_PRECO;
         FETCH PARTICIPAR_PRECO INTO v_id_precompetencia;
         IF PARTICIPAR_PRECO%FOUND THEN 
-            DBMS_OUTPUT.PUT_LINE('EL ATLETA HA PARTICIPADO EN PRECOMPETENCIAS ASOCIADAS');
+            DBMS_OUTPUT.PUT_LINE('El atleta ha participado en precompetencias asociadas.');
         ELSE
-            RAISE_APPLICATION_ERROR(-20120, 'NO SE PUEDE INSERTAR, EL ATLETA NO POSEE PRECOMPETENCIAS ASOCIADAS A LA COMPETENCIA');
+            RAISE_APPLICATION_ERROR(-20002, 'No se puede insertar! El atleta no posee precompetencias asociadas a la competencia!');
         END IF;
     CLOSE PARTICIPAR_PRECO;
 END;
