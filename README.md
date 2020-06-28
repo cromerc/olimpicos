@@ -1,6 +1,6 @@
 # Olímpicos
 
-Eso es el proyecto semestral de administración de base de datos. El enunciado se encuentra en el archivo "Trabajo_Semestral.pdf". El MR y MER se encuentran en "modelo/Modelo MR.pdf" y "modelo/Modelo MER.png".
+Eso es el proyecto semestral de administración de base de datos. El enunciado se encuentra en el archivo "Trabajo_Semestral.pdf". El MR y MER se encuentran en "modelo/MR.pdf" y "modelo/MER.png".
 
 ## Integrantes
 
