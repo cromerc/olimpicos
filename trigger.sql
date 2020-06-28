@@ -83,3 +83,4 @@ BEGIN
         :NEW.PRECIO_DELEGACION := v_atletas * :NEW.PRECIO_ATLETA;
     END IF;
 END;
+/

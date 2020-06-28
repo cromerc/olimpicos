@@ -1,4 +1,3 @@
--- Parte 1 Crear una vista que trae la cantidad maxima de atletas asociados a un pais que compitan en Atletismo
 CREATE OR REPLACE VIEW MAX_ATLETA_ATLETISMO_PAIS AS 
     SELECT P.ID_PAIS, P.NOMBRE, COUNT(*) AS CANTIDAD_ATLETA
     FROM COMPETENCIA C
