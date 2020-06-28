@@ -1,0 +1,190 @@
+\documentclass[12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{array}
+\usepackage{adjustbox}
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm,a4paper]{geometry}
+\usepackage{amsmath}
+\usepackage{verbatim}
+\usepackage{courier}
+
+\usepackage{listings}
+\usepackage{xcolor}
+
+\lstdefinestyle{freefempp}{
+	language=SQL,
+	basicstyle=\scriptsize\ttfamily,
+	commentstyle=\itshape\color{gray},
+	keywordstyle=\color{blue},
+	numberstyle=\color{red},
+	stringstyle=\color{red},
+	identifierstyle=\color{violet},
+	showstringspaces=false,
+	%float,
+	%frame=single,
+	%numbers=left
+}
+
+\lstset{
+	basicstyle=\footnotesize\ttfamily,
+	columns=flexible,
+	breaklines=true,
+	inputencoding=utf8,
+	extendedchars=true,
+	literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1 {ñ}{{\~n}}1 {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1 {Ñ}{{\~N}}1,
+	style=freefempp
+}
+
+\usepackage{titling}
+\renewcommand\maketitlehooka{\null\mbox{}\vfill}
+\renewcommand\maketitlehookd{\vfill\null}
+
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,allcolors=blue}
+\usepackage{hypcap}
+
+\title{\textbf{Trabajo Semestral de Administración y Programación de Base de Datos\\Entrega 1}}
+\author{Christopher Cromer\\Ignacio Ortiz\\\\Profesoras Tatiana Gutiérrez y Valeria Beratto\\Ingeniería Civil Informática}
+\date{\today}
+
+\pretitle{%
+	\begin{center}
+		\LARGE
+		\includegraphics[width=4cm]{ubblogo.png}\\[\bigskipamount]
+	}
+
+\posttitle{\end{center}}
+
+\begin{document}
+\clearpage
+\hypersetup{pageanchor=false}
+\begin{titlingpage}
+\maketitle
+\end{titlingpage}
+\thispagestyle{empty}
+
+\newpage
+
+\clearpage
+\thispagestyle{empty}
+\tableofcontents
+
+\newpage
+\hypersetup{pageanchor=true}
+\pagenumbering{arabic}
+\section{Introducción}
+Para el proyecto semestral se pide desarrollar una base de datos para los juegos olímpicos.\
+El proyecto está dividido en 2 grandes partes, el modelo y el SQL.\
+Primero en el caso de el \nameref{sec:modelo}, tenemos el \nameref{sec:mr} que fue usado para construir nuestra base de datos.
+En la sección de \nameref{sec:sql} tenemos la \nameref{sec:schema}, que tiene el esquema de la base de datos que hicimos basado en el\
+modelo. Las \nameref{sec:vistas}, la única vista que tenemos es necesaria para el funcionamiento de consulta. Segundo,\
+creamos los \nameref{sec:triggers} 3 a 5, según el enunciado, está elaborado antes que poblamos la base de datos, razón por la cual nuestros datos están
+conforme con las reglas de los triggers. La sección de \nameref{sec:consultas} tiene las consultas 1 y 2. Y finalmente las\
+\nameref{sec:pruebas} ayudan en demostrar que los triggers funcionan sin problema.
+
+Para facilitar el uso del código SQL, se puede encontrar los archivos .sql en el repositorio de git ubicado en\
+\href{https://github.com/cromerc/olimpicos}{https://github.com/cromerc/olimpicos}.
+
+
+\newpage
+\section{Modelo}
+\label{sec:modelo}
+\subsection{Modelo Relacional}
+\label{sec:mr}
+\begin{center}
+    En \textbf{negrita} se presentan las claves foráneas y las primarias en \underline{subrayado}.\smallskip
+\end{center}\bigskip
+{\scriptsize
+\noindent
+MEDALLA (\underline{ID\_MEDALLA}, DESCRIPCION)\bigskip
+
+\noindent
+CATEGORIA (\underline{ID\_CATEGORIA}, DESCRIPCION)\bigskip
+
+\noindent
+ATLETA (\underline{ID\_ATLETA}, NOMBRE, APELLIDO, FECHA\_NACIMIENTO, NACIONALIDAD)\bigskip
+
+\noindent
+PAIS (\underline{ID\_PAIS}, NOMBRE)\bigskip
+
+\noindent
+TIPOS\_DEPORTES (\underline{ID\_TIPO}, DESCRIPCION)\bigskip
+
+\noindent
+CIUDAD \underline{(ID\_CIUDAD}, NOMBRE, \textbf{PAIS})\bigskip
+
+\noindent
+LUGAR \underline{(ID\_LUGAR}, NOMBRE, CAPACIDAD, \textbf{CIUDAD})\bigskip
+
+\noindent
+HOTEL (\underline{ID\_HOTEL}, NOMBRE, \textbf{CIUDAD})\bigskip
+
+\noindent
+CAPITAL (\underline{\textbf{ID\_PAIS}, \textbf{ID\_CIUDAD}})\bigskip
+
+\noindent
+DELEGACION (\underline{ID\_DELEGACION}, NOMBRE, CANTIDAD\_ATLETAS, \textbf{PAIS}, \textbf{ATLETA})\bigskip
+
+\noindent
+COMPETENCIA (\underline{ID\_COMPETENCIA}, NOMBRE, \textbf{CATEGORIA}, \textbf{TIPO}, \textbf{LUGAR})\bigskip
+
+\noindent
+PRECOMPETENCIA (\underline{ID\_PRECOMPETENCIA}, FECHA, \textbf{COMPETENCIA}, \textbf{LUGAR})\bigskip
+
+\noindent
+HOSPEDAR (\underline{\textbf{ID\_HOTEL}, \textbf{ID\_DELEGACION}, FECHA\_INICIO}, FECHA\_FIN, PRECIO\_DELEGACION, PRECIO\_ATLETA)\bigskip
+
+\noindent
+GANAR (\underline{\textbf{ID\_ATLETA}, \textbf{ID\_COMPETENCIA}, FECHA}, \textbf{ID\_MEDALLA}, PUNTAJE)\bigskip
+
+\noindent
+PARTICIPAR\_COMPETENCIA (\underline{\textbf{ID\_COMPETENCIA}, \textbf{ID\_ATLETA}, FECHA})\bigskip
+
+\noindent
+PARTICIPAR\_PRECOMPETENCIA (\underline{\textbf{ID\_PRECOMPETENCIA}, \textbf{ID\_ATLETA}, FECHA}, PUNTAJE)
+}
+
+\newpage
+\section{SQL}
+\label{sec:sql}
+\subsection{Schema}
+\label{sec:schema}
+Eso es la esquema general de nuestro proyecto de base de datos.\\
+\lstinputlisting{../schema.sql}
+
+\newpage
+\subsection{Vistas}
+\label{sec:vistas}
+La siguiente vista es parte de consulta 2 en \nameref{sec:consultas}.\
+Es necesario ser creado antes que se puede ejecutar la consulta.\\
+\lstinputlisting{../vista.sql}
+
+\newpage
+\subsection{Triggers}
+\label{sec:triggers}
+Creamos los triggers antes que insertamos los datos de prueba.\
+Eso garantiza que nuestros datos cumple con las reglas de los trigger.\\
+\lstinputlisting{../trigger.sql}
+
+\newpage
+\subsection{Datos}
+\label{sec:datos}
+Los datos que usamos para poblar el base de datos nos facilita en consulta 1 a 2 y trigger 3 a 5.
+\lstinputlisting{../data.sql}
+
+\newpage
+\subsection{Consultas}
+\label{sec:consultas}
+Esos son las consultas 1 y 2. En el caso de consulta 2, depende de la vista creada anteriormente de\
+la sección \nameref{sec:vistas}.
+\lstinputlisting{../consulta.sql}
+
+\newpage
+\subsection{Pruebas para los Trigger}
+\label{sec:pruebas}
+Las consultas siguientes se pueden ejecutar para probar la funcionamiento correcto de los triggers.\\
+\lstinputlisting{../trigger_test.sql}
+
+\end{document}
+
