@@ -11,11 +11,11 @@ IS
             P2.NOMBRE,
             SUM(
                 CASE
-                    WHEN TRIM(LOWER(M.DESCRIPCION)) = 'oro' THEN
+                    WHEN LOWER(M.DESCRIPCION) = 'oro' THEN
                         3
-                    WHEN TRIM(LOWER(M.DESCRIPCION)) = 'plata' THEN
+                    WHEN LOWER(M.DESCRIPCION) = 'plata' THEN
                         2
-                    WHEN TRIM(LOWER(M.DESCRIPCION)) = 'bronce' THEN
+                    WHEN LOWER(M.DESCRIPCION) = 'bronce' THEN
                         1
                     ELSE
                         0
