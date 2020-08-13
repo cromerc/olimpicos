@@ -1,5 +1,5 @@
--- Christopher Cromer
--- Ignacio Ortiz
+-- Christopher Cromer - Sección 1
+-- Ignacio Ortiz - Sección 2
 
 -- 1
 -- Se usa el año para mostrar los resultados en tal año
